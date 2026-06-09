@@ -1,0 +1,438 @@
+/* Color Palette Archetypes Matrix Definition */
+:root {
+    --bg-base: #f4f6f9;
+    --bg-surface: #ffffff;
+    --text-primary: #1e293b;
+    --text-muted: #64748b;
+    --border-element: #e2e8f0;
+    --primary-accent: #10b981; /* Fallback dynamically injected over JavaScript execution */
+    --primary-accent-glow: rgba(16, 185, 129, 0.15);
+    
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --input-focus-glow: rgba(37, 99, 235, 0.15);
+    --destructive-red: #ef4444;
+    --transition-speed: 0.3s;
+    --border-radius-lg: 16px;
+    --border-radius-md: 10px;
+}
+
+[data-theme="dark"] {
+    --bg-base: #0f172a;
+    --bg-surface: #1e293b;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-element: #334155;
+    --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Reset baseline configuration profile overrides */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* App Header Layout Structure */
+.navbar {
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-element);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+.accent-text {
+    color: var(--primary-accent);
+    transition: color var(--transition-speed) ease;
+}
+
+/* Dark Mode Toggle Functional Switches UI */
+.theme-btn {
+    background: var(--border-element);
+    border: none;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-speed) ease, transform 0.2s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.05);
+}
+
+.mode-icon {
+    font-size: 1.25rem;
+}
+
+[data-theme="light"] .moon-icon { display: none; }
+[data-theme="dark"] .sun-icon { display: none; }
+
+/* Structural Content Containers and Framework Grid layouts */
+.main-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem 1rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.calculator-card {
+    background-color: var(--bg-surface);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    padding: 2.5rem;
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.card-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-element);
+    padding-bottom: 1.5rem;
+}
+
+.card-header h2 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.card-header p {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+}
+
+/* Dynamic Configuration Section Options styles */
+.selection-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    background: var(--bg-base);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    transition: background-color var(--transition-speed) ease;
+}
+
+.calculator-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2.5rem;
+}
+
+@media (max-width: 900px) {
+    .calculator-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Inputs Architecture Structure Elements */
+.inputs-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.input-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-element);
+    border-radius: var(--border-radius-md);
+    padding: 1.25rem;
+    transition: border-color var(--transition-speed) ease, transform 0.2s ease;
+}
+
+.input-card:hover {
+    border-color: var(--primary-accent);
+}
+
+.input-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Base Universal Form Input Fields Standards Controls */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid var(--border-element);
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 4px var(--primary-accent-glow);
+}
+
+/* Structural Data Verification and Error Layout handling */
+.input-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    font-size: 0.825rem;
+    min-height: 18px;
+}
+
+.pct-badge {
+    background-color: var(--bg-base);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.error-msg {
+    color: var(--destructive-red);
+    font-weight: 500;
+}
+
+/* Functional Buttons Configuration Options classes */
+.btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    filter: brightness(0.92);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-element);
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+}
+
+/* Results Display Panel Components */
+.results-section {
+    position: relative;
+}
+
+.sticky-results-card {
+    position: sticky;
+    top: 100px;
+    background: var(--bg-base);
+    border: 1px solid var(--border-element);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+/* SVG Radial Graphic Elements Calculation Dashboard Layout */
+.radial-progress-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+.radial-svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.radial-bg {
+    fill: none;
+    stroke: var(--border-element);
+    stroke-width: 8;
+    transition: stroke var(--transition-speed) ease;
+}
+
+.radial-bar {
+    fill: none;
+    stroke: var(--primary-accent);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 282.74;
+    stroke-dashoffset: 282.74;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1), stroke var(--transition-speed) ease;
+}
+
+.radial-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#final-aggregate {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.radial-text .lbl {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* Horizontal Metric Progression Breakdown Bars Layout */
+.breakdown-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.breakdown-list h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-element);
+    padding-bottom: 0.5rem;
+}
+
+.breakdown-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.breakdown-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--border-element);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-accent);
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color var(--transition-speed) ease;
+}
+
+/* Footer Element System Specifications */
+.footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: auto;
+    border-top: 1px solid var(--border-element);
+    background-color: var(--bg-surface);
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+.footer p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Animations Structural Layer Parameters */
+.animate-fade {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
