@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistani Universities Merit Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">MeritHub <span class="accent-text">Pk</span></h1>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Dark Mode">
+                <span class="mode-icon sun-icon">☀️</span>
+                <span class="mode-icon moon-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h2>Calculate Your Aggregate</h2>
+                <p>Select your target university and enter your marks to get real-time aggregate tracking.</p>
+            </div>
+
+            <section class="selection-section">
+                <div class="form-group">
+                    <label for="university-select">Target University</label>
+                    <select id="university-select" class="form-control">
+                        <option value="ntu">National Textile University (NTU)</option>
+                        <option value="air">Air University</option>
+                        <option value="comsats">COMSATS University</option>
+                        <option value="uet">University of Engineering and Technology (UET)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="program-group">
+                    <label for="program-select">Degree Pathway / Department</label>
+                    <select id="program-select" class="form-control"></select>
+                </div>
+            </section>
+
+            <div class="calculator-grid">
+                <section class="inputs-section">
+                    
+                    <div class="input-card animate-fade" id="matric-card">
+                        <h3>Matric / SSC Marks</h3>
+                        <div class="input-row">
+                            <div class="form-group">
+                                <label for="matric-obtained">Obtained</label>
+                                <input type="number" id="matric-obtained" class="form-control calc-input" min="0" placeholder="e.g. 1010">
+                            </div>
+                            <div class="form-group">
+                                <label for="matric-total">Total</label>
+                                <input type="number" id="matric-total" class="form-control calc-input" min="1" placeholder="e.g. 1100">
+                            </div>
+                        </div>
+                        <div class="input-footer">
+                            <span class="pct-badge" id="matric-pct">Percentage: 0%</span>
+                            <span class="error-msg" id="matric-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-card animate-fade" id="inter-card">
+                        <h3 id="inter-title">1st Year / HSSC Marks</h3>
+                        <div class="input-row">
+                            <div class="form-group">
+                                <label for="inter-obtained">Obtained</label>
+                                <input type="number" id="inter-obtained" class="form-control calc-input" min="0" placeholder="e.g. 430">
+                            </div>
+                            <div class="form-group">
+                                <label for="inter-total">Total</label>
+                                <input type="number" id="inter-total" class="form-control calc-input" min="1" placeholder="e.g. 520">
+                            </div>
+                        </div>
+                        <div class="input-footer">
+                            <span class="pct-badge" id="inter-pct">Percentage: 0%</span>
+                            <span class="error-msg" id="inter-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-card animate-fade" id="test-card">
+                        <h3>Entry Test Marks</h3>
+                        <div class="input-row">
+                            <div class="form-group">
+                                <label for="test-obtained">Obtained</label>
+                                <input type="number" id="test-obtained" class="form-control calc-input" min="0" placeholder="e.g. 340">
+                            </div>
+                            <div class="form-group">
+                                <label for="test-total">Total</label>
+                                <input type="number" id="test-total" class="form-control calc-input" min="1" placeholder="e.g. 400">
+                            </div>
+                        </div>
+                        <div class="input-footer">
+                            <span class="pct-badge" id="test-pct">Percentage: 0%</span>
+                            <span class="error-msg" id="test-error"></span>
+                        </div>
+                    </div>
+
+                    <button id="reset-btn" class="btn btn-secondary">Reset Parameters</button>
+                </section>
+
+                <section class="results-section">
+                    <div class="sticky-results-card">
+                        <div class="aggregate-display">
+                            <div class="radial-progress-wrapper">
+                                <svg class="radial-svg" viewBox="0 0 100 100">
+                                    <circle class="radial-bg" cx="50" cy="50" r="45"></circle>
+                                    <circle class="radial-bar" id="result-radial" cx="50" cy="50" r="45"></circle>
+                                </svg>
+                                <div class="radial-text">
+                                    <span id="final-aggregate">0.00%</span>
+                                    <span class="lbl">Aggregate Score</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="breakdown-list">
+                            <h4>Weightage Impact Metrics</h4>
+                            <div class="breakdown-item" id="breakdown-matric-row">
+                                <div class="breakdown-header">
+                                    <span>Matric Contribution</span>
+                                    <span id="contrib-matric">0.00%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="bar-matric"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span id="contrib-inter-lbl">1st Year Contribution</span>
+                                    <span id="contrib-inter">0.00%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="bar-inter"></div>
+                                </div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-header">
+                                    <span>Entry Test Contribution</span>
+                                    <span id="contrib-test">0.00%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="bar-test"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="copy-btn" class="btn btn-primary">Copy Result Summary</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>This calculator is unofficial and estimates aggregate based on the respective university's announced weightages.</p>
+    </footer>
+
+    <script>
+        // Core Formula Configurations and Pathways Matrix
+        const pathways = {
+            ntu: {
+                name: "National Textile University",
+                accent: "#10b981", // Emerald Green
+                programs: [
+                    { id: "science", name: "Science Department (BSCS, BSAI, BSSE)", hasMatric: true },
+                    { id: "bscet", name: "Computer Engineering Technology (BSCET)", hasMatric: false }
+                ]
+            },
+            air: {
+                name: "Air University",
+                accent: "#2563eb", // Deep Royal Blue
+                programs: [
+                    { id: "eng", name: "Engineering Programs", hasMatric: true },
+                    { id: "non-eng", name: "Non-Engineering Programs", hasMatric: true }
+                ]
+            },
+            comsats: {
+                name: "COMSATS University",
+                accent: "#f97316", // Safe Safety Orange
+                programs: [
+                    { id: "all", name: "All Academic Programs", hasMatric: true }
+                ]
+            },
+            uet: {
+                name: "University of Engineering and Technology",
+                accent: "#059669", // Darker Forest Emerald
+                programs: [
+                    { id: "eng", name: "Engineering Programs", hasMatric: true },
+                    { id: "comp", name: "Computing Programs", hasMatric: true }
+                ]
+            }
+        };
+
+        // DOM element register
+        const htmlNode = document.documentElement;
+        const uniSelect = document.getElementById('university-select');
+        const progSelect = document.getElementById('program-select');
+        const progGroup = document.getElementById('program-group');
+        const themeToggle = document.getElementById('theme-toggle');
+        const resetBtn = document.getElementById('reset-btn');
+        const copyBtn = document.getElementById('copy-btn');
+
+        const inputs = {
+            matricObt: document.getElementById('matric-obtained'),
+            matricTot: document.getElementById('matric-total'),
+            interObt: document.getElementById('inter-obtained'),
+            interTot: document.getElementById('inter-total'),
+            testObt: document.getElementById('test-obtained'),
+            testTot: document.getElementById('test-total')
+        };
+
+        const displays = {
+            matricCard: document.getElementById('matric-card'),
+            interTitle: document.getElementById('inter-title'),
+            contribInterLbl: document.getElementById('contrib-inter-lbl'),
+            matricPct: document.getElementById('matric-pct'),
+            interPct: document.getElementById('inter-pct'),
+            testPct: document.getElementById('test-pct'),
+            matricErr: document.getElementById('matric-error'),
+            interErr: document.getElementById('inter-error'),
+            testErr: document.getElementById('test-error'),
+            finalAgg: document.getElementById('final-aggregate'),
+            radialBar: document.getElementById('result-radial'),
+            contribMatricRow: document.getElementById('breakdown-matric-row'),
+            contribMatric: document.getElementById('contrib-matric'),
+            contribInter: document.getElementById('contrib-inter'),
+            contribTest: document.getElementById('contrib-test'),
+            barMatric: document.getElementById('bar-matric'),
+            barInter: document.getElementById('bar-inter'),
+            barTest: document.getElementById('bar-test')
+        };
+
+        // Initialization routine
+        window.addEventListener('DOMContentLoaded', () => {
+            setupTheme();
+            populateUniversities();
+            loadSavedState();
+            attachEventListeners();
+            evaluateCalculatorState();
+        });
+
+        function setupTheme() {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                htmlNode.setAttribute('data-theme', 'dark');
+            } else {
+                htmlNode.setAttribute('data-theme', 'light');
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlNode.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlNode.setAttribute('data-theme', targetTheme);
+            localStorage.setItem('theme', targetTheme);
+        });
+
+        function populateUniversities() {
+            uniSelect.innerHTML = Object.keys(pathways).map(key => 
+                `<option value="${key}">${pathways[key].name}</option>`
+            ).join('');
+        }
+
+        function updateProgramDropdown() {
+            const selectedUni = uniSelect.value;
+            const config = pathways[selectedUni];
+            
+            // Apply Dynamic Context Accent Color Theme
+            htmlNode.style.setProperty('--primary-accent', config.accent);
+            htmlNode.style.setProperty('--primary-accent-glow', config.accent + '25');
+
+            progSelect.innerHTML = config.programs.map(prog => 
+                `<option value="${prog.id}">${prog.name}</option>`
+            ).join('');
+
+            if(config.programs.length <= 1) {
+                progGroup.style.display = 'none';
+            } else {
+                progGroup.style.display = 'block';
+            }
+        }
+
+        function attachEventListeners() {
+            uniSelect.addEventListener('change', () => {
+                updateProgramDropdown();
+                evaluateCalculatorState();
+                persistState();
+            });
+
+            progSelect.addEventListener('change', () => {
+                evaluateCalculatorState();
+                persistState();
+            });
+
+            Object.values(inputs).forEach(input => {
+                input.addEventListener('input', () => {
+                    evaluateCalculatorState();
+                    persistState();
+                });
+            });
+
+            resetBtn.addEventListener('click', resetCalculator);
+            copyBtn.addEventListener('click', copySummaryToClipboard);
+        }
+
+        // Logic routing Engine
+        function evaluateCalculatorState() {
+            const uni = uniSelect.value;
+            const prog = progSelect.value;
+            const config = pathways[uni];
+            const currentProgram = config.programs.find(p => p.id === prog) || config.programs[0];
+
+            // Modify layout elements dynamically based on selection rules
+            if (!currentProgram.hasMatric) {
+                displays.matricCard.style.display = 'none';
+                displays.contribMatricRow.style.display = 'none';
+            } else {
+                displays.matricCard.style.display = 'block';
+                displays.contribMatricRow.style.display = 'block';
+            }
+
+            // Adjust nomenclature variants (UET implements complete Intermediate scaling)
+            if (uni === 'uet') {
+                displays.interTitle.textContent = "Intermediate / HSSC Marks";
+                displays.contribInterLbl.textContent = "Intermediate Contribution";
+            } else {
+                displays.interTitle.textContent = "1st Year / HSSC Marks";
+                displays.contribInterLbl.textContent = "1st Year Contribution";
+            }
+
+            // Calculations execution pipeline
+            const metrics = calculateIndividualPercentages(currentProgram.hasMatric);
+            computeAggregate(uni, prog, metrics, currentProgram.hasMatric);
+        }
+
+        function calculateIndividualPercentages(includeMatric) {
+            const data = {
+                matric: { obt: parseFloat(inputs.matricObt.value), tot: parseFloat(inputs.matricTot.value), valid: false, pct: 0 },
+                inter: { obt: parseFloat(inputs.interObt.value), tot: parseFloat(inputs.interTot.value), valid: false, pct: 0 },
+                test: { obt: parseFloat(inputs.testObt.value), tot: parseFloat(inputs.testTot.value), valid: false, pct: 0 }
+            };
+
+            // Execute Validation Runs
+            if (includeMatric) {
+                data.matric.valid = validateFieldGroup(data.matric, displays.matricErr, displays.matricPct);
+            } else {
+                data.matric.valid = true; // Bypassed
+                displays.matricErr.textContent = "";
+            }
+            data.inter.valid = validateFieldGroup(data.inter, displays.interErr, displays.interPct);
+            data.test.valid = validateFieldGroup(data.test, displays.testErr, displays.testPct);
+
+            return data;
+        }
+
+        function validateFieldGroup(field, errorDisplay, pctDisplay) {
+            if (isNaN(field.obt) || isNaN(field.tot)) {
+                errorDisplay.textContent = "";
+                pctDisplay.textContent = "Percentage: 0%";
+                return false;
+            }
+            if (field.tot <= 0) {
+                errorDisplay.textContent = "Total marks must exceed zero.";
+                pctDisplay.textContent = "Percentage: 0%";
+                return false;
+            }
+            if (field.obt < 0) {
+                errorDisplay.textContent = "Obtained marks cannot be negative.";
+                pctDisplay.textContent = "Percentage: 0%";
+                return false;
+            }
+            if (field.obt > field.tot) {
+                errorDisplay.textContent = "Obtained marks cannot exceed total marks.";
+                pctDisplay.textContent = `Percentage: ${((field.obt/field.tot)*100).toFixed(1)}%`;
+                return false;
+            }
+
+            errorDisplay.textContent = "";
+            field.pct = (field.obt / field.tot) * 100;
+            pctDisplay.textContent = `Percentage: ${field.pct.toFixed(2)}%`;
+            return true;
+        }
+
+        function computeAggregate(uni, prog, metrics, includeMatric) {
+            // Intercept system failures if essential blocks remain unvalidated
+            const essentialInputsValid = (includeMatric ? metrics.matric.valid : true) && metrics.inter.valid && metrics.test.valid;
+
+            if (!essentialInputsValid) {
+                renderOutputComponents(0, 0, 0, 0);
+                return;
+            }
+
+            let mPct = metrics.matric.pct;
+            let iPct = metrics.inter.pct;
+            let tPct = metrics.test.pct;
+
+            let mWeight = 0, iWeight = 0, tWeight = 0;
+
+            // Mathematical processing formulas architecture
+            if (uni === 'ntu') {
+                if (prog === 'science') { mWeight = 0.10; iWeight = 0.60; tWeight = 0.30; }
+                else if (prog === 'bscet') { mWeight = 0.00; iWeight = 0.70; tWeight = 0.30; }
+            } else if (uni === 'air') {
+                if (prog === 'eng') { mWeight = 0.10; iWeight = 0.50; tWeight = 0.40; }
+                else if (prog === 'non-eng') { mWeight = 0.15; iWeight = 0.35; tWeight = 0.50; }
+            } else if (uni === 'comsats') {
+                mWeight = 0.10; iWeight = 0.40; tWeight = 0.50;
+            } else if (uni === 'uet') {
+                if (prog === 'eng') { mWeight = 0.17; iWeight = 0.50; tWeight = 0.33; }
+                else if (prog === 'comp') { mWeight = 0.25; iWeight = 0.45; tWeight = 0.30; }
+            }
+
+            let cMatric = mPct * mWeight;
+            let cInter = iPct * iWeight;
+            let cTest = tPct * tWeight;
+            let finalAggregate = cMatric + cInter + cTest;
+
+            renderOutputComponents(finalAggregate, cMatric, cInter, cTest, mWeight, iWeight, tWeight);
+        }
+
+        function renderOutputComponents(aggregate, cMatric, cInter, cTest, mw, iw, tw) {
+            displays.finalAgg.textContent = `${aggregate.toFixed(2)}%`;
+            
+            // Standardizing SVG Circle Dasharray mechanics (Circumference 2 * PI * r -> 2 * 3.14159 * 45 = 282.74)
+            const circumference = 282.74;
+            const strokeDashOffset = circumference - (aggregate / 100) * circumference;
+            displays.radialBar.style.strokeDashoffset = strokeDashOffset;
+
+            // Render absolute breakdowns
+            displays.contribMatric.textContent = `${cMatric.toFixed(2)}% / ${(mw*100).toFixed(0)}%`;
+            displays.contribInter.textContent = `${cInter.toFixed(2)}% / ${(iw*100).toFixed(0)}%`;
+            displays.contribTest.textContent = `${cTest.toFixed(2)}% / ${(tw*100).toFixed(0)}%`;
+
+            // Adjust internal horizontal tracking fills safely avoiding NaN
+            displays.barMatric.style.width = mw > 0 ? `${(cMatric / (mw * 100)) * 100}%` : '0%';
+            displays.barInter.style.width = iw > 0 ? `${(cInter / (iw * 100)) * 100}%` : '0%';
+            displays.barTest.style.width = tw > 0 ? `${(cTest / (tw * 100)) * 100}%` : '0%';
+        }
+
+        function resetCalculator() {
+            Object.values(inputs).forEach(input => input.value = "");
+            evaluateCalculatorState();
+            persistState();
+        }
+
+        function copySummaryToClipboard() {
+            const aggregateText = displays.finalAgg.textContent;
+            if (parseFloat(aggregateText) === 0) {
+                alert("Please provide valid marks data before attempting performance extracts.");
+                return;
+            }
+            const uniName = pathways[uniSelect.value].name;
+            const progName = progSelect.options[progSelect.selectedIndex]?.text || "";
+            const textToCopy = `My ${uniName} (${progName}) Estimated Aggregate Score: ${aggregateText}\nCalculated via UniMerit Hub.`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = "Copied Success!";
+                copyBtn.style.background = "#10b981";
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.style.background = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to dump clipboard payload matrix', err);
+            });
+        }
+
+        // Persistent data serialization strategies
+        function persistState() {
+            const calculatorState = {
+                uni: uniSelect.value,
+                prog: progSelect.value,
+                matricObt: inputs.matricObt.value,
+                matricTot: inputs.matricTot.value,
+                interObt: inputs.interObt.value,
+                interTot: inputs.interTot.value,
+                testObt: inputs.testObt.value,
+                testTot: inputs.testTot.value
+            };
+            localStorage.setItem('unimerit_state', JSON.stringify(calculatorState));
+        }
+
+        function loadSavedState() {
+            const savedRaw = localStorage.getItem('unimerit_state');
+            if (!savedRaw) {
+                updateProgramDropdown();
+                return;
+            }
+            try {
+                const state = JSON.parse(savedRaw);
+                uniSelect.value = state.uni || Object.keys(pathways)[0];
+                updateProgramDropdown();
+                
+                if(state.prog) progSelect.value = state.prog;
+                
+                inputs.matricObt.value = state.matricObt || "";
+                inputs.matricTot.value = state.matricTot || "";
+                inputs.interObt.value = state.interObt || "";
+                inputs.interTot.value = state.interTot || "";
+                inputs.testObt.value = state.testObt || "";
+                inputs.testTot.value = state.testTot || "";
+            } catch(e) {
+                console.error("Corrupted local state profile bypassed structural mapping execution.", e);
+                updateProgramDropdown();
+            }
+        }
+    </script>
+</body>
+</html>
